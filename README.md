@@ -7,6 +7,13 @@
 该脚本只是用lua把setnx、get、expire组合起来而已.
 
 ```
+// params KEYS[1]: key
+// params ARGV[1]: value
+// params ARGV[2]: 过期秒数
+// return 1: 拿到锁.
+// return 0: 未拿到锁.
+// desc: 为避免分布式锁超时, unlocker飘逸浮动.
+
 if redis.call("set", KEYS[1], ARGV[1], "ex", ARGV[2], "nx")
 then
 	redis.call("set", "lua_debug", "setnx success")
